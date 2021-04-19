@@ -1,25 +1,45 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HeroService } from './../hero.service';
+import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
+import { Hero } from '../hero';
 
 import { HeroDetailComponent } from './hero-detail.component';
 
-describe('HeroDetailComponent', () => {
-  let component: HeroDetailComponent;
-  let fixture: ComponentFixture<HeroDetailComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ HeroDetailComponent ]
-    })
-    .compileComponents();
-  });
+fdescribe('HeroDetailComponent', () => {
+  let heroService: HeroService;
+  let injector: TestBed;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeroDetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule,
+      ],
+      providers: [
+        HeroService,
+      ]
+    });
+    injector = getTestBed();
+    heroService = injector.get(HeroService);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  fdescribe('hero detail spec test', () => {
+    fit('shoule be equal', () => {
+      const hero: Hero = {
+        id: 1,
+        name: 'john'
+      };
+      const hero1: Hero = {
+        id: 1,
+        name: 'dian'
+      }
+      const id = 1;
+      heroService.getHeroTest(id)
+        .subscribe(
+          (res) => {
+            console.log(`hehe ${res}`);
+            expect(res).toEqual(hero);
+          }
+        );
+    });
   });
 });
